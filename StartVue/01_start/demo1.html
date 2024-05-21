@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <h1>Hello,{{data1}}</h1>
+        <h2>{{data2}}</h2>
+        <h3>{{Date.now()}}</h3>
+    </div>
+
+</body>
+<script type="text/javascript">
+    Vue.config.productionTip = false //阻止vue在启动时生成生产提示
+    new Vue({
+        el:'#root',  //指定当前vue实例为那个容器服务，一般用css选择器,容器和实例是一一对应的关系
+        data:{ //data里存数据
+            data1:'啊啊啊啊啊啊啊啊啊啊啊啊啊',
+            data2:10
+        }
+    })
+</script>
+
+
+</html>

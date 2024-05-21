@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+       Vue中的事件修饰符：
+            1.prevent：阻止默认事件（常用）；
+            2.stop：阻止事件冒泡（常用）；
+            3.once：事件只触发一次（常用）；
+            4.capture：使用事件的捕获模式；
+            5.self：只有event.target是当前操作的元素时才触发事件；
+            6.passive：事件的默认行为立即执行，无需等待事件回调执行完毕；
+
+        Vue中常用的按键别名：
+            回车 => enter
+            删除 => delete (捕获“删除”和“退格”键)
+            退出 => esc
+            空格 => space
+            换行 => tab (特殊，必须配合keydown去使用)
+            上 => up
+            下 => down
+            左 => left
+            右 => right
+
+        Vue未提供别名的按键，可以使用按键原始的key值去绑定，但注意要转为kebab-case（短横线命名）
+
+        系统修饰键（用法特殊）：ctrl、alt、shift、meta
+                (1).配合keyup使用：按下修饰键的同时，再按下其他键，随后释放其他键，事件才被触发。
+                (2).配合keydown使用：正常触发事件。
+
+        也可以使用keyCode去指定具体的按键（不推荐）
+
+        Vue.config.keyCodes.自定义键名 = 键码，可以去定制按键别名                                                                                                                 
+		-->
+    <div id="root">
+        <h1>hhhhhhahah</h1>
+        <!-- 阻止默认事件（常用） 这个的默认事件就是跳转到这个网页链接，但是现在不跳转了-->
+        <a href="http://www.atguigu.com" @click.prevent="showInfo">点击</a>
+
+        <!-- 阻止事件冒泡（常用）点击子组件也算是点击外面的,点击事件被触发2次 -->
+        <div class="demo1" @click="showInfo">
+            <button @click.stop="showInfo">点击111</button>
+            <!-- 修饰符可以连续写 -->
+            <!-- <a href="http://www.atguigu.com" @click.prevent.stop="showInfo">点我提示信息</a> -->
+        </div>
+
+        <!-- 事件只触发一次（常用） -->
+        <button @click.once="showInfo">点击222</button>
+
+        <!-- 使用事件的捕获模式 -->
+        <div class="box1" @click.capture="showMsg(1)">
+            box1
+            <div class="box2" @click="showMsg(2)">
+                box2
+            </div>
+        </div>
+
+        <!-- 只有event.target是当前操作的元素时才触发事件； -->
+        <div class="demo1" @click.self="showInfo">
+            <button @click="showInfo">点击</button>
+        </div>
+
+        <!-- 事件的默认行为立即执行，无需等待事件回调执行完毕； -->
+        <!-- 滚动条 -->
+        <ul @scroll="eevent" class="list">
+        <!-- 鼠标滚轮 -->
+        <!-- <ul @wheel.passive="eevent" class="list"> -->
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+
+        <h1>按键别名</h1>
+		<input type="text" placeholder="按下回车提示输入" @keyup="bieming">
+        </br>
+		<input type="text" placeholder="按下回车提示输入" @keydown.ctrl.y="bieming">
+        </br>   
+		<input type="text" placeholder="按下回车提示输入" @keydown.huiche="bieming">
+
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+    Vue.config.keyCodes.huiche = 13 //定义了一个别名按键，用keyCode定义的，但是code这个已经在web标准里删除了
+    
+    const vm = new Vue({
+        el: "#root",
+        data: {
+
+        },
+        methods:{
+            bieming(e){
+                console.log(e.key,e.keyCode)
+                console.log(e.target.value)
+			},
+            showInfo(e){
+                alert('点击事件')
+                console.log(e.target)
+            },
+            showMsg(msg){
+                console.log(msg)
+            },
+            eevent(){
+                for (let i = 0; i < 100000; i++) {
+                    console.log('#')
+                }
+                console.log('累坏了')
+            }
+        }
+    })
+</script>
+<style>
+    *{
+        margin-top: 20px;
+    }
+    .demo1{
+        height: 50px;
+        background-color: skyblue;
+    }
+    .box1{
+        padding: 5px;
+        background-color: skyblue;
+    }
+    .box2{
+        padding: 5px;
+        background-color: orange;
+    }
+    .list{
+        width: 200px;
+        height: 200px;
+        background-color: peru;
+        overflow: auto;
+    }
+    li{
+        height: 100px;
+    }
+</style>
+</html>
