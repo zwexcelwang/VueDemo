@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <title>姓名案例</title>
+</head>
+<body>
+    <!-- 
+    计算属性：
+        1.定义：要用的属性不存在，要通过已有属性计算得来。
+        2.原理：底层借助了Objcet.defineproperty方法提供的getter和setter。
+        3.get函数什么时候执行？
+            (1).初次读取时会执行一次。
+            (2).当依赖的数据发生改变时会被再次调用。
+        4.优势：与methods实现相比，内部有缓存机制（复用），效率更高，调试方便。
+        5.备注：
+            1.计算属性最终会出现在vm上，直接读取使用即可。
+            2.如果计算属性要被修改，那必须写set函数去响应修改，且set中要引起计算时依赖的数据发生改变。
+    -->
+    <div id="root">
+        <h1>插值语法和计算属性</h1>
+        <h2>姓：<input type="text" v-model:value="xing"></h2>
+        <h2>名：<input type="text" v-model:value="ming"></h2>
+        <h2>姓名：{{xing}}-{{ming}}</h2>
+        <!-- <h2>姓名：{{xingming()}}</h2> -->
+        <h2>姓名：{{xingming}}</h2>
+
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false;
+
+    const vm = new Vue({
+        el: "#root",
+        data: {
+            xing: "ww",
+            ming: "www"
+        },
+        // methods: {
+        //     xingming() {
+        //         console.log("调用了！");
+        //         return this.xing+this.ming;
+        //     }
+        // },
+        computed: {
+            // xingming: {
+            //     get() {
+            //         return this.xing+"-"+this.ming;
+            //     },
+            //     set(value) {
+            //         const arr = value.split("-");
+            //         this.xing = arr[0];
+            //         this.ming = arr[1];
+            //     }
+            // }
+            // 简写
+            xingming() {
+                console.log('get被调用了')
+                return this.xing + '-' + this.ming
+            }
+        }
+    })
+</script>
+</html>
